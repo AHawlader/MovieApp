@@ -1,0 +1,73 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .nav {
+            background: aquamarine;
+            margin-bottom: 10px;
+        }
+        .div ul li {
+            color: white;
+        }
+        .site-title {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .nav-item {
+            color: white
+        }
+        .body {
+            margin-top: 100px
+        }
+    </style>
+</head>
+
+<body >
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-info" >
+    <div class="container">
+        <p class="site-title">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/Content/Image/movie-brand.jpg" alt="" />
+            </a>
+        </p>
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto ">
+                <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new {@class = "nav-link"})</li>
+                <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new {@class = "nav-link"})</li>
+                <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new {@class = "nav-link"})</li>
+                <li class="nav-item">@Html.ActionLink("Movie", "Index", "Movie", null, new {@class = "nav-link"})</li>
+                <li class="nav-item ">@Html.ActionLink("Store", "Index", "Store", null, new {@class = "nav-link"})</li>
+                <li class="nav-item">@Html.ActionLink("Store Movies", "Index", "StoreMovies", null, new {@class = "nav-link"})</li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container body-content">
+    <br/>
+    <br/>
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+</body>
+</html>

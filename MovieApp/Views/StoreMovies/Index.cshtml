@@ -1,0 +1,176 @@
+﻿
+@model IEnumerable<MovieApp.Models.StoreMovies>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "StoreMovies", FormMethod.Get))
+{
+    <div class="row">
+      <div class="col-md-3">
+          @Html.TextBox("storeName", "", new { @class = "form-control", @placeholder = "Store Search here"  })
+      </div>
+      <div class="col-md-1">
+          <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+  </div>
+
+}
+<br />
+
+
+<table class="table">
+    <tr>
+
+        <th style="width:20%">
+            Store Name
+        </th>
+        <th style="width:20%">
+            Movie Title
+        </th>
+        <th style="width:20%">
+            Quntity
+        </th>
+        <th style="width:20%">
+            Create Date
+        </th>
+        <th style="width:20%">
+            Action
+        </th>
+        <th></th>
+    </tr>
+
+    <tbody id="storeMovieRow">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Store.StoreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quintity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelaseDate)
+                </td>
+
+                <td>
+                    <a class=" btn btn-primary btn-sm" href="@Url.Action("Edit", "StoreMovies", new {id = item.StoreMovieId})">
+                        <i>Edit</i>
+                    </a>
+                    <a class=" btn btn-danger btn-sm" href="@Url.Action("Delete", "StoreMovies", new {id = item.StoreMovieId})">
+                        <i>Delete</i>
+                    </a>
+                    <a class=" btn btn-success btn-sm" href="@Url.Action("Details", "StoreMovies", new {id = item.StoreMovieId})">
+                        <i>Details</i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="container">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            @{
+                int total = ViewBag.TotalCount / ViewBag.PageSize;
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new {page = ViewBag.CurrentPage - 1})">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                for (int i = 1; i <= total; i++)
+                {
+                    if (i <= ViewBag.CurrentPage + 3 && i >= ViewBag.CurrentPage - 2)
+                    {
+                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index",new {page=i})">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new {page = ViewBag.CurrentPage+1})">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#storeName").keypress(function () {
+            var searchText = $(this).val();
+
+
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("Search", "StoreMovies")?storeName=" + searchText ,
+                contentType: "application/json",
+                success: function (storeList) {
+                    var body = $("#storeMovieRow");
+                    var tr = body.find("tr:first-child").clone();
+                    body.empty();
+
+                    for (i = 0; i <= storeList.length; i++) {
+                        var newtr = tr.clone();
+
+                        var obj = storeList[i];
+                        newtr.find("td:eq(0)").html(obj.Store.StoreName);
+                        newtr.find("td:eq(1)").html(obj.Movie.Title);
+                        newtr.find("td:eq(2)").html(obj.Quintity);
+                        newtr.find("td:eq(3)").html(obj.RelaseDate.Date);
+                        body.append(newtr);
+
+
+                    }
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })  
+            
+           
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

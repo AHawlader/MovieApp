@@ -1,0 +1,53 @@
+﻿@model MovieApp.Models.StoreMovies
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="">
+    <h4>StoreMovies</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-md-2">
+            @Html.DisplayNameFor(model => model.Store.StoreName)
+        </dt>
+
+        <dd class="col-md-10">
+            @Html.DisplayFor(model => model.Store.StoreName)
+        </dd>
+
+        <dt class="col-md-2"> 
+            @Html.DisplayNameFor(model => model.Movie.Title)
+        </dt>
+
+        <dd class="col-md-10">
+            @Html.DisplayFor(model => model.Movie.Title)
+        </dd>
+
+        <dt class="col-md-2">
+            @Html.DisplayNameFor(model => model.Quintity)
+        </dt>
+
+        <dd class="col-md-10">
+            @Html.DisplayFor(model => model.Quintity)
+        </dd>
+
+        <dt class="col-md-2">
+            @Html.DisplayNameFor(model => model.RelaseDate)
+        </dt>
+
+        <dd class="col-md-10">
+            @Html.DisplayFor(model => model.RelaseDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    
+    @Html.ActionLink("Edit", "Edit", new {id = Model.StoreMovieId})
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,126 @@
+﻿
+@model IEnumerable<MovieApp.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Index</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Update"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Update"]
+    </div>
+}
+@if (TempData["Delete"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Delete"]
+    </div>
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Movie", FormMethod.Get))
+{
+    <div class="card ">
+        <div class="card-header badge-primary"><h5>Search !</h5></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.TextBox("title", "", new { @class = "form-control", @placeholder = "Movie Title" })
+
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Serach" class="btn btn-primary active" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="container">
+    <nav aria-label="page navigation example">
+        <ul class=" pagination justify-content-center">
+            @{
+                double total = Math.Ceiling((double)ViewBag.TotalRow / ViewBag.PageSize);
+
+                <li class="page-item" style="margin-right:5px">
+                    <a class="page-link" href="@Url.Action("Index", new {page = ViewBag.CurrentPage - 1})">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                for (int i = 1; i <= total; i++)
+                {
+                    if (i <= ViewBag.CurrentPage + 3 && i >= ViewBag.CurrentPage - 2)
+                    {
+                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index",new {page=i})">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item" style="margin-left: 5px">
+                    <a class="page-link" href="@Url.Action("Index", new {page = ViewBag.CurrentPage + 1})">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+
+        </ul>
+
+    </nav>
+</div>
